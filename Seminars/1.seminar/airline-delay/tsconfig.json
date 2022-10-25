@@ -5,9 +5,8 @@
   "compilerOptions": {
     /* Basic Options */
     "target": "ES2015",
-    "module": "ESNext",
-    "outDir": "tsc-out",
-    "isolatedModules": true,
+    "module": "None",
+    "outDir": "dist",
 
     /* Strict Type-Checking Options */
     "strict": true,
@@ -18,8 +17,7 @@
     "noUncheckedIndexedAccess": true,
 
     /* Module Resolution Options */
-    "types": [],
-    "esModuleInterop": true,
+    "types": ["p5/global"],
 
     /* Advanced Options */
     "skipLibCheck": true,
