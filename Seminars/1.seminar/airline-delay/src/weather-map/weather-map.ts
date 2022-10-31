@@ -5,11 +5,11 @@ export class WeatherMap {
   readonly mapLayerName: string = 'weather-radar-layer'
   readonly currentDateTime: string
   readonly openDateModalButton: HTMLElement =
-    document.getElementById('openDataPicker')!
+    document.getElementById('dataPickerButton')!
   readonly submiDateButton: HTMLElement =
     document.getElementById('unixTsSubmit')!
   readonly dateTimePicker: HTMLInputElement = document.getElementById(
-    'tsDateTime'
+    'datePickerInput'
   ) as HTMLInputElement
   readonly startTime
   readonly dateModal
@@ -22,9 +22,12 @@ export class WeatherMap {
     this.currentDateTime = new Date().toISOString().slice(0, -8)!
     this.dateTimePicker.value = this.currentDateTime
     this.startTime = this.parseTimeToSeconds(new Date())
-    this.dateModal = new bootstrap.Modal(document.getElementById('tsDialog')!, {
-      keyboard: false
-    })
+    this.dateModal = new bootstrap.Modal(
+      document.getElementById('datePickerModal')!,
+      {
+        keyboard: false
+      }
+    )
     this.syncDateButtonValue()
     this.registerEventListeners()
     mapboxgl.accessToken =

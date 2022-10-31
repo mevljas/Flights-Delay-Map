@@ -19,8 +19,8 @@
       <div class="navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mx-auto">
           <li class="nav-item text-center">
-            <button type="button" id="openDataPicker" class="btn btn-primary" data-bs-toggle="modal"
-              data-bs-target="#tsDialog">
+            <button type="button" id="dataPickerButton" class="btn btn-primary" data-bs-toggle="modal"
+              data-bs-target="#datePickerModal">
               Select date
             </button>
           </li>
@@ -39,18 +39,18 @@
   <!-- Navbar -->
 
   <!-- Modal -->
-  <div class="modal fade" id="tsDialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="datePickerModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">
+          <h5 class="modal-title">
             Date and time select
           </h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <p>Please select date and time.</p>
-          <input type="datetime-local" id="tsDateTime" />
+          <input type="datetime-local" id="datePickerInput" />
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="unixTsReset">
