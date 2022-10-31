@@ -1,11 +1,14 @@
-import p5 from "p5";
-import { createSketch } from "./p5-util/sketch";
-import { setup } from "./setup";
-import { draw } from "./draw";
+import p5 from 'p5'
+import {createSketch} from './p5-util/sketch'
+import {setup} from './setup'
+import {draw} from './draw'
+import {WeatherMap} from './weather-map/weather-map'
 
-const sketch = createSketch({
-  setup,
-  draw,
-});
+const myWeatherMap = new WeatherMap()
 
-new p5(sketch);
+// const sketch = createSketch({
+//   setup,
+//   draw
+// })
+
+// new p5(sketch)
