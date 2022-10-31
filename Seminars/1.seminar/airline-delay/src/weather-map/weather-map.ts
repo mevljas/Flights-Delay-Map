@@ -3,12 +3,7 @@ import mapboxgl from 'mapbox-gl'
 
 export class WeatherMap {
   readonly msPerMinute: number = 60000 //offset in milliseconds
-  readonly timeZoneOffset: number =
-    new Date().getTimezoneOffset() * this.msPerMinute
-  readonly localIsoTime: string = new Date(
-    Date.now() - this.timeZoneOffset
-  ).toISOString()
-  currentDateTime: string = this.localIsoTime.slice(0, -8)
+  readonly currentDateTime: string = new Date().toISOString().slice(0, -8)!
   dateButton: HTMLElement = document.getElementById('openDataPicker')!
   submitButton: HTMLElement = document.getElementById('unixTsSubmit')!
   currentTime: Date = new Date()
@@ -25,12 +20,11 @@ export class WeatherMap {
   map: mapboxgl.Map
 
   constructor() {
-    ;(<HTMLInputElement>document.getElementById('openDataPicker'))!.value =
+    ;(<HTMLInputElement>document.getElementById('tsDateTime'))!.value =
       this.currentDateTime
+
     this.dateButton.innerHTML = this.printFancyTime(
-      new Date(
-        (<HTMLInputElement>document.getElementById('openDataPicker'))!.value
-      )
+      (<HTMLInputElement>document.getElementById('tsDateTime'))!.value
     )
 
     this.numberOfFrames(15)
@@ -68,8 +62,9 @@ export class WeatherMap {
     })
   }
 
-  printFancyTime(dateObj: Date) {
-    return dateObj.toLocaleDateString() + ' ' + dateObj.toLocaleTimeString()
+  printFancyTime(date: string) {
+    // 31/10/2022 14:45:39
+    return date.replaceAll('-', '/').replace('T', ' ')
   }
 
   getTimeStamp(dateObje: Date) {
@@ -93,9 +88,7 @@ export class WeatherMap {
       .value
     console.log(inputtedTs)
     this.dateButton.innerHTML = this.printFancyTime(
-      new Date(
-        (<HTMLInputElement>document.getElementById('openDataPicker')).value
-      )
+      (<HTMLInputElement>document.getElementById('tsDateTime')).value
     )
     this.dateModal.toggle()
   }
