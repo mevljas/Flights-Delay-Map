@@ -31,44 +31,47 @@ const dateModal = new bootstrap.Modal(
 //   ]
 // }
 const options = {
+  container: 'map',
+  style: 'mapbox://styles/mapbox/light-v10',
+  zoom: 2,
   lat: 45,
   lng: -98.5606744,
-  container: 'map',
-  zoom: 2,
-  studio: true, // false to use non studio styles
-  style: 'mapbox://styles/mapbox/light-v10',
+  center: [-98.5606744, 45],
+  projection: {name: 'mercator'},
+  renderWorldCopies: false,
+  testMode: true,
   maxBounds: [
     [-180, 0],
     [-20, 75] // Northeast coordinates
-  ],
-  renderWorldCopies: false,
-  projection: {name: 'mercator'},
-  testMode: true
+  ]
 }
 let myMap
 
 let canvas
-let meteorites
+var airportsDict
 
 syncDateButtonValue()
 registerEventListeners()
 
 // Create an instance of Mapbox
-const mappa = new Mappa('Mapbox', key)
+const mappa = new Mappa('MapboxGL', key)
+
+function preload() {
+  // Load the data
+  airportsCSV = loadTable('./../assets/us-airports.csv', 'csv', 'header')
+}
 
 function setup() {
+  setupFlights()
   canvas = createCanvas(800, 700)
 
   // Create a tile map and overlay the canvas on top.
   myMap = mappa.tileMap(options)
 
-  myMap.overlay(canvas, setupMap)
-
-  // Load the data
-  meteorites = loadTable('./../assets/Meteorite_Landings.csv', 'csv', 'header')
+  myMap.overlay(canvas, setTimeout(setupMap, 500))
 
   // Only redraw the meteorites when the map change and not every frame.
-  myMap.onChange(drawMeteorites)
+  myMap.onChange(drawAirports)
 
   fill(109, 255, 0)
   stroke(100)
@@ -77,35 +80,10 @@ function setup() {
 // The draw loop is fully functional but we are not using it for now.
 function draw() {}
 
-function drawMeteorites() {
-  // Clear the canvas
-  clear()
-
-  for (let i = 0; i < meteorites.getRowCount(); i += 1) {
-    // Get the lat/lng of each meteorite
-    const latitude = Number(meteorites.getString(i, 'reclat'))
-    const longitude = Number(meteorites.getString(i, 'reclong'))
-
-    // Only draw them if the position is inside the current map bounds. We use a
-    // Mapbox method to check if the lat and lng are contain inside the current
-    // map. This way we draw just what we are going to see and not everything. See
-    // getBounds() in https://www.mapbox.com/mapbox.js/api/v3.1.1/l-latlngbounds/
-    if (myMap.map.getBounds().contains([latitude, longitude])) {
-      // Transform lat/lng to pixel position
-      const pos = myMap.latLngToPixel(latitude, longitude)
-      // Get the size of the meteorite and map it. 60000000 is the mass of the largest
-      // meteorite (https://en.wikipedia.org/wiki/Hoba_meteorite)
-      let size = meteorites.getString(i, 'mass (g)')
-      size = map(size, 558, 60000000, 1, 25) + myMap.zoom()
-      ellipse(pos.x, pos.y, size, size)
-    }
-  }
-}
-
 function setupMap() {
   // Set the default atmosphere style
-  // map.setFog({})
-  // addWeatherRadarLayer()
+  myMap.map.setFog({})
+  addWeatherRadarLayer()
 }
 
 function registerEventListeners() {
@@ -140,18 +118,18 @@ function setNewDateTime() {
   dateModal.toggle()
 }
 function removeWeatherRadarLayer() {
-  if (map.getLayer(mapLayerName)) {
-    map.removeLayer(mapLayerName)
+  if (myMap.map.getLayer(mapLayerName)) {
+    myMap.map.removeLayer(mapLayerName)
   }
-  if (map.getSource(mapLayerName)) {
-    map.removeSource(mapLayerName)
+  if (myMap.map.getSource(mapLayerName)) {
+    myMap.map.removeSource(mapLayerName)
   }
 }
 function addWeatherRadarLayer() {
   let inputtedTs = dateTimePicker.value
   let tsTime = new Date(inputtedTs)
   let timestampt = generateWeatherRadarTimestamp(tsTime)
-  map.addLayer({
+  myMap.map.addLayer({
     id: mapLayerName,
     type: 'raster',
     source: {
