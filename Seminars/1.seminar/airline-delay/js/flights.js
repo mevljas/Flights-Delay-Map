@@ -19,6 +19,18 @@ function loadAirports() {
   }
 }
 
+function updateFlights() {
+  selectedDate = new Date(dateTimePicker.value)
+  flightsTable = loadTable(
+    `./../assets/csv/flights/${selectedDate.getFullYear()}/${
+      selectedDate.getMonth() + 1
+    }.csv`,
+    'csv',
+    'header',
+    drawOverlay
+  )
+}
+
 function drawOverlay() {
   // Clear the canvas
   clear()
@@ -40,11 +52,10 @@ function drawAirports() {
 
 function drawFlights() {
   let selectedDate = new Date(dateTimePicker.value)
-  let selectedYear = selectedDate.getFullYear()
-  let selectedMonth = selectedDate.getMonth() + 1
+  // let selectedYear = selectedDate.getFullYear()
+  // let selectedMonth = selectedDate.getMonth() + 1
   let selectedDay = selectedDate.getDate()
-  let selectedTime = selectedDate.getTime()
-
+  // let selectedTime = selectedDate.getTime()
   for (let i = 0; i < flightsTable.getRowCount(); i++) {
     // for (let i = 0; i < 10; i++) {
     // Get the lat/lng of each flight
@@ -67,12 +78,13 @@ function drawFlights() {
     )
 
     // console.log('')
-    // console.log('day: ' + day)
+    // console.log('origin: ' + origin)
+    // console.log('destination: ' + destination)
     // console.log('selectedDay: ' + selectedDay)
     // console.log('selectedDate: ' + selectedDate)
     // console.log('departureDate: ' + departureDate)
     // console.log('arrivalDate: ' + arrivalDate)
-    // console.log("selectedTime: " + selectedTime)
+    // console.log('selectedTime: ' + selectedTime)
     // console.log("departureDate: " + departureDate.getTime())
     // console.log("arrivalDate: " + arrivalDate.getTime())
 
@@ -97,40 +109,33 @@ function drawFlights() {
       typeof originCoords == 'undefined' ||
       typeof destinationCoords == 'undefined'
     ) {
+      console.error('undefined')
       continue
     }
 
-    // console.error('drawing')
-    // console.log(delay)
+    // console.info('drawing')
 
     // Transform lat/lng to pixel position
-    const originPosition = myMap.latLngToPixel(
+    const p0 = myMap.latLngToPixel(
       originCoords.latitude,
       originCoords.longitude
     )
-    const destinationPosition = myMap.latLngToPixel(
+    const p1 = myMap.latLngToPixel(
       destinationCoords.latitude,
       destinationCoords.longitude
     )
-    // Get the size of the meteorite and map it. 60000000 is the mass of the largest
-    // meteorite (https://en.wikipedia.org/wiki/Hoba_meteorite)
-    let size = 1
-    // size = map(size, 558, 60000000, 1, 25) + myMap.zoom()
-    // ellipse(pos.x, pos.y, size, size)
+
     if (delay == 0) {
       stroke('black')
     } else if (delay <= 10) {
-      stroke('yellow')
+      stroke('green')
     } else if (delay <= 30) {
+      stroke('yellow')
+    } else if (delay <= 60) {
       stroke('orange')
     } else {
       stroke('red')
     }
-    line(
-      originPosition.x,
-      originPosition.y,
-      destinationPosition.x,
-      destinationPosition.y
-    )
+    line(p0.x, p0.y, p1.x, p1.y)
   }
 }

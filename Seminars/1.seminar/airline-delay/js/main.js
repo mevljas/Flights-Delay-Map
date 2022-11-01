@@ -59,7 +59,7 @@ function preload() {
   // Load the data
   airportsTable = loadTable('./../assets/csv/us-airports.csv', 'csv', 'header')
   flightsTable = loadTable(
-    './../assets/csv/flights/2011/10.csv',
+    './../assets/csv/flights/2011/1.csv',
     'csv',
     'header'
   )
@@ -97,6 +97,7 @@ function registerEventListeners() {
   submiDateButton.addEventListener('click', () => {
     setNewDateTime()
     updateWeatherLayer()
+    updateFlights()
   })
 }
 function updateWeatherLayer() {
@@ -117,7 +118,7 @@ function syncDateButtonValue() {
   openDateModalButton.innerHTML = parseDateTime(dateTimePicker.value)
 }
 function setNewDateTime() {
-  console.log(dateTimePicker.value)
+  // console.log(dateTimePicker.value)
   syncDateButtonValue()
   dateModal.toggle()
 }
@@ -152,7 +153,7 @@ function addWeatherRadarLayer() {
       'raster-fade-duration': 0
     }
   })
-  console.log(`New weather radar layer ${timestampt}`)
+  // console.log(`New weather radar layer ${timestampt}`)
 }
 function generateWeatherRadarTimestamp(date) {
   return (
