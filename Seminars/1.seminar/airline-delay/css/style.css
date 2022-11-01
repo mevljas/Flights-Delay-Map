@@ -17,10 +17,3 @@ body {
   justify-content: space-between;
   flex-direction: column;
 }
-
-/* .mapboxgl-map {
-  z-index: 1 !important;
-  position: absolute !important;
-  left: 0;
-  top: 0;
-} */
