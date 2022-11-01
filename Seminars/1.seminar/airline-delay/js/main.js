@@ -15,23 +15,10 @@ const dateModal = new bootstrap.Modal(
   }
 )
 // Options for map
-// const options = {
-//   container: 'map',
-//   style: 'mapbox://styles/mapbox/light-v10',
-//   zoom: 2,
-//   center: [-98.5606744, 45],
-//   projection: {name: 'mercator'},
-//   renderWorldCopies: false,
-//   testMode: true,
-//   maxBounds: [
-//     [-180, 0],
-//     [-20, 75] // Northeast coordinates
-//   ]
-// }
 const options = {
   container: 'map',
   style: 'mapbox://styles/mapbox/light-v10',
-  zoom: 2,
+  zoom: 0,
   lat: 45,
   lng: -98.5606744,
   center: [-98.5606744, 45],
@@ -39,8 +26,8 @@ const options = {
   renderWorldCopies: false,
   testMode: true,
   maxBounds: [
-    [-180, 0],
-    [-20, 75] // Northeast coordinates
+    [-180, 0], // Southwest coordinates
+    [-20, 72] // Northeast coordinates
   ]
 }
 let myMap
