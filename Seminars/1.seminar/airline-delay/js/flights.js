@@ -51,6 +51,7 @@ function drawAirports() {
 }
 
 function drawFlights() {
+  const lineOpacity = 0.5
   let selectedDate = new Date(dateTimePicker.value)
   // let selectedYear = selectedDate.getFullYear()
   // let selectedMonth = selectedDate.getMonth() + 1
@@ -98,44 +99,46 @@ function drawFlights() {
       continue
     }
 
-    if (departureDate < selectedDate || arrivalDate > selectedDate) {
-      // console.info(
-      //   'continue departureDate < selectedDate || arrivalDate > selectedDate'
-      // )
-      continue
+    // Check wheter the plaine is flying right now
+    if (departureDate < selectedDate && arrivalDate > selectedDate) {
+      // CHeck wheter any of the coordinats is undefined
+      if (
+        typeof originCoords == 'undefined' ||
+        typeof destinationCoords == 'undefined'
+      ) {
+        // console.error('undefined')
+        continue
+      }
+
+      // console.info('drawing')
+
+      // Transform lat/lng to pixel position
+      const p0 = myMap.latLngToPixel(
+        originCoords.latitude,
+        originCoords.longitude
+      )
+      const p1 = myMap.latLngToPixel(
+        destinationCoords.latitude,
+        destinationCoords.longitude
+      )
+
+      if (delay == 0) {
+        stroke(`rgba(0,0,0,${lineOpacity})`)
+      } else if (delay <= 10) {
+        stroke(`rgba(0,255,0,${lineOpacity})`)
+      } else if (delay <= 30) {
+        stroke(`rgba(255,255,0,${lineOpacity})`)
+      } else if (delay <= 60) {
+        stroke(`rgba(255,165,0,${lineOpacity})`)
+      } else {
+        stroke(`rgba(255,0,0,${lineOpacity})`)
+      }
+      line(p0.x, p0.y, p1.x, p1.y)
+      // TODO: keep track of myMap.zoom or somethin like that
     }
-
-    if (
-      typeof originCoords == 'undefined' ||
-      typeof destinationCoords == 'undefined'
-    ) {
-      console.error('undefined')
-      continue
-    }
-
-    // console.info('drawing')
-
-    // Transform lat/lng to pixel position
-    const p0 = myMap.latLngToPixel(
-      originCoords.latitude,
-      originCoords.longitude
-    )
-    const p1 = myMap.latLngToPixel(
-      destinationCoords.latitude,
-      destinationCoords.longitude
-    )
-
-    if (delay == 0) {
-      stroke('black')
-    } else if (delay <= 10) {
-      stroke('green')
-    } else if (delay <= 30) {
-      stroke('yellow')
-    } else if (delay <= 60) {
-      stroke('orange')
-    } else {
-      stroke('red')
-    }
-    line(p0.x, p0.y, p1.x, p1.y)
+    // console.info(
+    //   'continue departureDate < selectedDate & arrivalDate > selectedDate' is false
+    // )
+    continue
   }
 }
