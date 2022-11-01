@@ -7,10 +7,10 @@ function setupFlights() {
 
 function loadAirports() {
   airportsDict = {}
-  for (let i = 0; i < airportsCSV.getRowCount(); i++) {
-    const latitude = airportsCSV.getNum(i, 'LATITUDE')
-    const longitude = airportsCSV.getNum(i, 'LONGITUDE')
-    const code = airportsCSV.get(i, 'IATA')
+  for (let i = 0; i < airportsTable.getRowCount(); i++) {
+    const latitude = airportsTable.getNum(i, 'LATITUDE')
+    const longitude = airportsTable.getNum(i, 'LONGITUDE')
+    const code = airportsTable.get(i, 'IATA')
 
     airportsDict[code] = {
       latitude: latitude,
@@ -19,10 +19,13 @@ function loadAirports() {
   }
 }
 
-function drawAirports() {
+function drawOverlay() {
   // Clear the canvas
   clear()
+  drawFlights()
+}
 
+function drawAirports() {
   for (const [key, value] of Object.entries(airportsDict)) {
     // Transform lat/lng to pixel position
 
@@ -32,5 +35,102 @@ function drawAirports() {
     let size = 20
     size = map(size, 558, 60000000, 1, 25) + myMap.zoom()
     ellipse(pos.x, pos.y, size, size)
+  }
+}
+
+function drawFlights() {
+  let selectedDate = new Date(dateTimePicker.value)
+  let selectedYear = selectedDate.getFullYear()
+  let selectedMonth = selectedDate.getMonth() + 1
+  let selectedDay = selectedDate.getDate()
+  let selectedTime = selectedDate.getTime()
+
+  for (let i = 0; i < flightsTable.getRowCount(); i++) {
+    // for (let i = 0; i < 10; i++) {
+    // Get the lat/lng of each flight
+    const year = flightsTable.getNum(i, 'YEAR')
+    const month = flightsTable.getNum(i, 'MONTH')
+    const day = flightsTable.getNum(i, 'DAY')
+    const departureTime = flightsTable.getString(i, 'CRS_DEP_TIME')
+    const arrivalTime = flightsTable.getString(i, 'CRS_ARR_TIME')
+    const origin = flightsTable.getString(i, 'ORIGIN')
+    const destination = flightsTable.getString(i, 'DEST')
+    const delay = flightsTable.getNum(i, 'ARR_DELAY')
+    const originCoords = airportsDict[origin]
+    const destinationCoords = airportsDict[destination]
+
+    var departureDate = new Date(
+      month + '/' + day + '/' + year + ' ' + departureTime
+    )
+    var arrivalDate = new Date(
+      month + '/' + day + '/' + year + ' ' + arrivalTime
+    )
+
+    // console.log('')
+    // console.log('day: ' + day)
+    // console.log('selectedDay: ' + selectedDay)
+    // console.log('selectedDate: ' + selectedDate)
+    // console.log('departureDate: ' + departureDate)
+    // console.log('arrivalDate: ' + arrivalDate)
+    // console.log("selectedTime: " + selectedTime)
+    // console.log("departureDate: " + departureDate.getTime())
+    // console.log("arrivalDate: " + arrivalDate.getTime())
+
+    if (day > selectedDay) {
+      // console.info('break day > selectedDay')
+      break
+    }
+
+    if (day < selectedDay) {
+      // console.info('continue day < selectedDay')
+      continue
+    }
+
+    if (departureDate < selectedDate || arrivalDate > selectedDate) {
+      // console.info(
+      //   'continue departureDate < selectedDate || arrivalDate > selectedDate'
+      // )
+      continue
+    }
+
+    if (
+      typeof originCoords == 'undefined' ||
+      typeof destinationCoords == 'undefined'
+    ) {
+      continue
+    }
+
+    // console.error('drawing')
+    // console.log(delay)
+
+    // Transform lat/lng to pixel position
+    const originPosition = myMap.latLngToPixel(
+      originCoords.latitude,
+      originCoords.longitude
+    )
+    const destinationPosition = myMap.latLngToPixel(
+      destinationCoords.latitude,
+      destinationCoords.longitude
+    )
+    // Get the size of the meteorite and map it. 60000000 is the mass of the largest
+    // meteorite (https://en.wikipedia.org/wiki/Hoba_meteorite)
+    let size = 1
+    // size = map(size, 558, 60000000, 1, 25) + myMap.zoom()
+    // ellipse(pos.x, pos.y, size, size)
+    if (delay == 0) {
+      stroke('black')
+    } else if (delay <= 10) {
+      stroke('yellow')
+    } else if (delay <= 30) {
+      stroke('orange')
+    } else {
+      stroke('red')
+    }
+    line(
+      originPosition.x,
+      originPosition.y,
+      destinationPosition.x,
+      destinationPosition.y
+    )
   }
 }

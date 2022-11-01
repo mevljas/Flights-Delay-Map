@@ -7,8 +7,6 @@ const openDateModalButton = document.getElementById('dataPickerButton')
 const submiDateButton = document.getElementById('unixTsSubmit')
 const dateTimePicker = document.getElementById('datePickerInput')
 const weatherCheckbox = document.querySelector('input[id=weatherCheckbox]')
-const currentDateTime = new Date().toISOString().slice(0, -8)
-dateTimePicker.value = currentDateTime
 const startTime = parseTimeToSeconds(new Date())
 const dateModal = new bootstrap.Modal(
   document.getElementById('datePickerModal'),
@@ -49,6 +47,7 @@ let myMap
 
 let canvas
 var airportsDict
+var flightsTable
 
 syncDateButtonValue()
 registerEventListeners()
@@ -58,7 +57,12 @@ const mappa = new Mappa('MapboxGL', key)
 
 function preload() {
   // Load the data
-  airportsCSV = loadTable('./../assets/us-airports.csv', 'csv', 'header')
+  airportsTable = loadTable('./../assets/csv/us-airports.csv', 'csv', 'header')
+  flightsTable = loadTable(
+    './../assets/csv/flights/2011/10.csv',
+    'csv',
+    'header'
+  )
 }
 
 function setup() {
@@ -71,7 +75,7 @@ function setup() {
   myMap.overlay(canvas, setTimeout(setupMap, 500))
 
   // Only redraw the meteorites when the map change and not every frame.
-  myMap.onChange(drawAirports)
+  myMap.onChange(drawOverlay)
 
   fill(109, 255, 0)
   stroke(100)
