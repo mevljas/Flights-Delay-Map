@@ -4,115 +4,23 @@ body {
   padding: 0;
   /* overflow: hidden; */
 }
-canvas {
-  margin: auto;
-}
 
-#map {
+#menu {
+  z-index: 10;
   position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-}
-.icon-black {
-  color: rgb(0, 0, 0);
-}
-.green-icon {
-  color: rgb(17, 167, 17);
-}
-.red-icon {
-  color: red;
-}
-.orange-icon {
-  color: rgb(255, 157, 0);
-}
-.icon-selected {
-  color: rgb(0, 132, 255);
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 5%;
+  padding: 1%;
+  display: flex;
+  row-gap: 10px;
+  justify-content: space-between;
+  flex-direction: column;
 }
 
-.mapboxgl-ctrl-top-center {
-  position: relative !important;
-  left: 0;
-  right: 0;
-  top: 10px;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.mapboxgl-ctrl-bottom-center {
+/* .mapboxgl-map {
+  z-index: 1 !important;
   position: absolute !important;
   left: 0;
-  right: 0;
-  bottom: 15px;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.false-anchor {
-  cursor: pointer;
-  text-decoration: underline;
-  color: rgb(0, 0, 238) !important;
-}
-
-.ui-dialog {
-  /*
-        * https://stackoverflow.com/a/34299947/18758797
-        */
-  background:
-            /* Shadow covers */ linear-gradient(
-      white 30%,
-      rgba(255, 255, 255, 0)
-    ),
-    linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%,
-    /* Shadows */
-      radial-gradient(
-        50% 0,
-        farthest-side,
-        rgba(0, 0, 0, 0.2),
-        rgba(0, 0, 0, 0)
-      ),
-    radial-gradient(
-        50% 100%,
-        farthest-side,
-        rgba(0, 0, 0, 0.2),
-        rgba(0, 0, 0, 0)
-      )
-      0 100%;
-  background:
-            /* Shadow covers */ linear-gradient(
-      white 30%,
-      rgba(255, 255, 255, 0)
-    ),
-    linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%,
-    /* Shadows */
-      radial-gradient(
-        farthest-side at 50% 0,
-        rgba(0, 0, 0, 0.2),
-        rgba(0, 0, 0, 0)
-      ),
-    radial-gradient(
-        farthest-side at 50% 100%,
-        rgba(0, 0, 0, 0.2),
-        rgba(0, 0, 0, 0)
-      )
-      0 100%;
-  background-repeat: no-repeat;
-  background-color: white;
-  background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
-
-  /* Opera doesn't support this in the shorthand */
-  background-attachment: local, local, scroll, scroll;
-}
-
-#weather-item {
-  padding-left: 5%;
-}
-
-#weather-item div {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-}
+  top: 0;
+} */

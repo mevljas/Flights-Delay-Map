@@ -48,8 +48,6 @@ let myMap
 let canvas
 var airportsDict
 var flightsTable
-const canvasXSizeFactor = 0.999
-const canvasYSizeFactor = 0.91
 
 syncDateButtonValue()
 registerEventListeners()
@@ -69,10 +67,7 @@ function preload() {
 
 function setup() {
   setupFlights()
-  canvas = createCanvas(
-    windowWidth * canvasXSizeFactor,
-    windowHeight * canvasYSizeFactor
-  )
+  canvas = createCanvas(windowWidth, windowHeight)
 
   // Create a tile map and overlay the canvas on top.
   myMap = mappa.tileMap(options)
@@ -96,10 +91,7 @@ function setupMap() {
 }
 
 function windowResized() {
-  resizeCanvas(
-    windowWidth * canvasXSizeFactor,
-    windowHeight * canvasYSizeFactor
-  )
+  resizeCanvas(windowWidth, windowHeight)
 }
 
 function registerEventListeners() {
