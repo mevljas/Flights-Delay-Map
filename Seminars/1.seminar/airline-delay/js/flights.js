@@ -123,14 +123,19 @@ function drawFlights() {
       )
 
       if (delay == 0) {
+        // black
         stroke(`rgba(0,0,0,${lineOpacity})`)
       } else if (delay <= 10) {
+        // green
         stroke(`rgba(0,255,0,${lineOpacity})`)
       } else if (delay <= 30) {
+        // yellow
         stroke(`rgba(255,255,0,${lineOpacity})`)
       } else if (delay <= 60) {
+        // orange
         stroke(`rgba(255,165,0,${lineOpacity})`)
       } else {
+        // red
         stroke(`rgba(255,0,0,${lineOpacity})`)
       }
       line(p0.x, p0.y, p1.x, p1.y)
@@ -139,6 +144,5 @@ function drawFlights() {
     // console.info(
     //   'continue departureDate < selectedDate & arrivalDate > selectedDate' is false
     // )
-    continue
   }
 }
