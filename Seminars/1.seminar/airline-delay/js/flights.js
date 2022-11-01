@@ -139,7 +139,6 @@ function drawFlights() {
         stroke(`rgba(255,0,0,${lineOpacity})`)
       }
       line(p0.x, p0.y, p1.x, p1.y)
-      // TODO: keep track of myMap.zoom or somethin like that
     }
     // console.info(
     //   'continue departureDate < selectedDate & arrivalDate > selectedDate' is false
