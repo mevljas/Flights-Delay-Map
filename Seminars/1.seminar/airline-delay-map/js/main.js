@@ -30,11 +30,11 @@ const options = {
     [-20, 72] // Northeast coordinates
   ]
 }
-let myMap
+let usaMap
 
 let canvas
-var airportsDict
-var flightsTable
+let airportsDict
+let flightsTable
 
 syncDateButtonValue()
 registerEventListeners()
@@ -53,16 +53,16 @@ function preload() {
 }
 
 function setup() {
-  setupFlights()
+  parseAirports()
   canvas = createCanvas(windowWidth, windowHeight)
 
   // Create a tile map and overlay the canvas on top.
-  myMap = mappa.tileMap(options)
+  usaMap = mappa.tileMap(options)
 
-  myMap.overlay(canvas, setTimeout(setupMap, 1000))
+  usaMap.overlay(canvas, setTimeout(setupMap, 1000))
 
   // Only redraw the meteorites when the map change and not every frame.
-  myMap.onChange(drawOverlay)
+  usaMap.onChange(drawFlights)
 
   fill(109, 255, 0)
   stroke(100)
@@ -73,7 +73,7 @@ function draw() {}
 
 function setupMap() {
   // Set the default atmosphere style
-  myMap.map.setFog({})
+  usaMap.map.setFog({})
   addWeatherRadarLayer()
 }
 
@@ -88,7 +88,7 @@ function registerEventListeners() {
   submiDateButton.addEventListener('click', () => {
     setNewDateTime()
     updateWeatherLayer()
-    updateFlights()
+    loadFlights()
   })
 }
 function updateWeatherLayer() {
@@ -114,18 +114,18 @@ function setNewDateTime() {
   dateModal.toggle()
 }
 function removeWeatherRadarLayer() {
-  if (myMap.map.getLayer(mapLayerName)) {
-    myMap.map.removeLayer(mapLayerName)
+  if (usaMap.map.getLayer(mapLayerName)) {
+    usaMap.map.removeLayer(mapLayerName)
   }
-  if (myMap.map.getSource(mapLayerName)) {
-    myMap.map.removeSource(mapLayerName)
+  if (usaMap.map.getSource(mapLayerName)) {
+    usaMap.map.removeSource(mapLayerName)
   }
 }
 function addWeatherRadarLayer() {
   let inputtedTs = dateTimePicker.value
   let tsTime = new Date(inputtedTs)
   let timestampt = generateWeatherRadarTimestamp(tsTime)
-  myMap.map.addLayer({
+  usaMap.map.addLayer({
     id: mapLayerName,
     type: 'raster',
     source: {
