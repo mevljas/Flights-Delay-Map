@@ -7,6 +7,7 @@ const openDateModalButton = document.getElementById('dataPickerButton')
 const submiDateButton = document.getElementById('unixTsSubmit')
 const dateTimePicker = document.getElementById('datePickerInput')
 const weatherCheckbox = document.querySelector('input[id=weatherCheckbox]')
+const flightsCheckbox = document.querySelector('input[id=flightsCheckbox]')
 const startTime = parseTimeToSeconds(new Date())
 const dateModal = new bootstrap.Modal(
   document.getElementById('datePickerModal'),
@@ -14,7 +15,6 @@ const dateModal = new bootstrap.Modal(
     keyboard: false
   }
 )
-// Options for map
 const options = {
   container: 'map',
   style: 'mapbox://styles/mapbox/light-v10',
@@ -30,17 +30,14 @@ const options = {
     [-20, 72] // Northeast coordinates
   ]
 }
+// Create an instance of MapboxGL
+const mappa = new Mappa('MapboxGL', key)
 let usaMap
-
 let canvas
 let airportsDict
+let airportsTable
 let flightsTable
-
-syncDateButtonValue()
-registerEventListeners()
-
-// Create an instance of Mapbox
-const mappa = new Mappa('MapboxGL', key)
+let flightsEnabled = true
 
 function preload() {
   // Load the data
@@ -58,23 +55,11 @@ function setup() {
 
   // Create a tile map and overlay the canvas on top.
   usaMap = mappa.tileMap(options)
-
-  usaMap.overlay(canvas, setTimeout(setupMap, 1000))
-
-  // Only redraw the meteorites when the map change and not every frame.
+  syncDateButtonValue()
+  usaMap.overlay(canvas, setTimeout(addWeatherRadarLayer, 1000))
+  registerEventListeners()
+  // Only redraw the flights when the map changes and not every frame.
   usaMap.onChange(drawFlights)
-
-  fill(109, 255, 0)
-  stroke(100)
-}
-
-// The draw loop is fully functional but we are not using it for now.
-function draw() {}
-
-function setupMap() {
-  // Set the default atmosphere style
-  usaMap.map.setFog({})
-  addWeatherRadarLayer()
 }
 
 function windowResized() {
@@ -85,73 +70,22 @@ function registerEventListeners() {
   weatherCheckbox.addEventListener('change', () => {
     updateWeatherLayer()
   })
+  flightsCheckbox.addEventListener('change', () => {
+    flightsEnabled = flightsCheckbox.checked
+    drawFlights()
+  })
   submiDateButton.addEventListener('click', () => {
     setNewDateTime()
     updateWeatherLayer()
     loadFlights()
   })
 }
-function updateWeatherLayer() {
-  removeWeatherRadarLayer()
-  if (weatherCheckbox.checked) {
-    addWeatherRadarLayer()
-  }
-}
-// Parses date into a nice format.
-function parseDateTime(date) {
-  // 31/10/2022 14:45:39
-  return date.replaceAll('-', '/').replace('T', ' ')
-}
-function parseTimeToSeconds(dateObje) {
-  return Math.round(dateObje.getTime() / 1000)
-}
+
 function syncDateButtonValue() {
   openDateModalButton.innerHTML = parseDateTime(dateTimePicker.value)
 }
+
 function setNewDateTime() {
-  // console.log(dateTimePicker.value)
   syncDateButtonValue()
   dateModal.toggle()
-}
-function removeWeatherRadarLayer() {
-  if (usaMap.map.getLayer(mapLayerName)) {
-    usaMap.map.removeLayer(mapLayerName)
-  }
-  if (usaMap.map.getSource(mapLayerName)) {
-    usaMap.map.removeSource(mapLayerName)
-  }
-}
-function addWeatherRadarLayer() {
-  let inputtedTs = dateTimePicker.value
-  let tsTime = new Date(inputtedTs)
-  let timestampt = generateWeatherRadarTimestamp(tsTime)
-  usaMap.map.addLayer({
-    id: mapLayerName,
-    type: 'raster',
-    source: {
-      type: 'raster',
-      tiles: [
-        `https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/ridge::USCOMP-N0Q-${timestampt}/{z}/{x}/{y}.png`
-      ],
-      tileSize: 256
-    },
-    paint: {
-      'raster-opacity': 1,
-      'raster-opacity-transition': {
-        duration: 0,
-        delay: 0
-      },
-      'raster-fade-duration': 0
-    }
-  })
-  // console.log(`New weather radar layer ${timestampt}`)
-}
-function generateWeatherRadarTimestamp(date) {
-  return (
-    date.getFullYear() +
-    ('0' + (date.getUTCMonth() + 1)).slice(-2) +
-    ('0' + date.getUTCDate()).slice(-2) +
-    ('0' + date.getUTCHours()).slice(-2) +
-    ('0' + date.getUTCMinutes()).slice(-2)
-  )
 }

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Airline delay map</title>
+  <title>Flights delay map</title>
   <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href='css/mapbox-gl.css' rel='stylesheet' />
@@ -12,12 +12,9 @@
   <script src="js/lib/mapbox-gl.js"></script>
   <script src="js/lib/p5.min.js"></script>
   <script src="js/lib/mappa.min.js"></script>
-
-
 </head>
 
 <body>
-  <!-- <div style="display: none;"> -->
   <div id="menu">
     <button type="button" id="dataPickerButton" class="btn btn-primary" data-bs-toggle="modal"
       data-bs-target="#datePickerModal">
@@ -28,6 +25,12 @@
       <input class="form-check-input" type="checkbox" value="" id="weatherCheckbox" checked />
       <label class="form-check-label" for="weatherCheckbox">
         Weather radar
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="flightsCheckbox" checked />
+      <label class="form-check-label" for="flightsCheckbox">
+        Flights
       </label>
     </div>
   </div>
@@ -59,6 +62,7 @@
       </div>
     </div>
   </div>
+  <script src="js/weather.js" defer></script>
   <script src="js/flights.js" defer></script>
   <script src="js/main.js" defer></script>
 </body>

@@ -20,12 +20,15 @@ function loadFlights() {
     }.csv`,
     'csv',
     'header',
-    drawOverlay
+    drawFlights
   )
 }
 
 function drawFlights() {
   clear()
+  if (!flightsEnabled) {
+    return
+  }
   const lineOpacity = 0.5
   const selectedDate = new Date(dateTimePicker.value)
   const selectedDay = selectedDate.getDate()
