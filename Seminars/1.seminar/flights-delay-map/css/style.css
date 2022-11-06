@@ -26,27 +26,27 @@ body {
   width: fit-content;
 }
 #onTimeFlights {
+  background-color: black;
+    border-color: black;
+}
+
+#lessThan10Flights {
   background-color: green;
     border-color: green;
 }
 
-#lessThan10Flights {
-  background-color: yellow;
-    border-color: yellow;
+#lessThan30Flights {
+  background-color: darkviolet;
+    border-color: darkviolet;
 }
 
-#lessThan30Flights {
+#lessThan60Flights {
   background-color: orange;
     border-color: orange;
 }
 
-#lessThan60Flights {
+#moreThan60Flights {
   background-color: red;
     border-color: red;
-}
-
-#moreThan60Flights {
-  background-color: black;
-    border-color: black;
 }
 

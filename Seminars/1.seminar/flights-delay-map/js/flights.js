@@ -63,36 +63,36 @@ function drawFlights() {
         )
 
         if (delay == 0 && onTimeFlightsCheckbox.checked) {
-          // green
-          stroke(`rgba(0,255,0,${lineOpacity})`)
+          // black
+          stroke(`rgba(0,0,0,${lineOpacity})`)
           line(p0.x, p0.y, p1.x, p1.y)
         } else if (
           delay > 0 &&
           delay <= 10 &&
           lessThan10FlightsCheckbox.checked
         ) {
-          // yellow
-          stroke(`rgba(255,255,0,${lineOpacity})`)
+          // green
+          stroke(`rgba(0,100,0,${lineOpacity})`)
           line(p0.x, p0.y, p1.x, p1.y)
         } else if (
           delay > 10 &&
           delay <= 30 &&
           lessThan30FlightsCheckbox.checked
         ) {
-          // orange
-          stroke(`rgba(255,165,0,${lineOpacity})`)
+          // violet
+          stroke(`rgba(155,38,182,${lineOpacity})`)
           line(p0.x, p0.y, p1.x, p1.y)
         } else if (
           delay > 30 &&
           delay <= 60 &&
           lessThan60FlightsCheckbox.checked
         ) {
-          // red
-          stroke(`rgba(255,0,0,${lineOpacity})`)
+          // orange
+          stroke(`rgba(255,165,0,${lineOpacity})`)
           line(p0.x, p0.y, p1.x, p1.y)
         } else if (delay > 60 && moreThan60FlightsCheckbox.checked) {
-          // black
-          stroke(`rgba(0,0,0,${lineOpacity})`)
+          // red
+          stroke(`rgba(255,0,0,${lineOpacity})`)
           line(p0.x, p0.y, p1.x, p1.y)
         }
       } catch (_) {}
