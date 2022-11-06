@@ -22,3 +22,6 @@ body {
 .mapboxgl-ctrl-bottom-left {
   display: none;
 }
+#dataPickerButton {
+  width: fit-content;
+}
