@@ -17,3 +17,8 @@ body {
   justify-content: space-between;
   flex-direction: column;
 }
+
+.mapboxgl-ctrl-bottom-right,
+.mapboxgl-ctrl-bottom-left {
+  display: none;
+}
