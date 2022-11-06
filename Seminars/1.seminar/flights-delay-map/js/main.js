@@ -1,5 +1,4 @@
-// API Key for Mapbox. Get one here:
-// https://www.mapbox.com/studio/account/tokens/
+// API Key for Mapbox.
 const key =
   'pk.eyJ1IjoibWV2bGphcyIsImEiOiJjbDlyaXRsdDkwNXV6M3ZxZ2loNGUwNDBoIn0.c0FcsLrkv_Hlrj4OnIqmSA'
 const mapLayerName = 'weather-radar-layer'
@@ -7,14 +6,26 @@ const openDateModalButton = document.getElementById('dataPickerButton')
 const submiDateButton = document.getElementById('unixTsSubmit')
 const dateTimePicker = document.getElementById('datePickerInput')
 const weatherCheckbox = document.querySelector('input[id=weatherCheckbox]')
-const flightsCheckbox = document.querySelector('input[id=flightsCheckbox]')
-const startTime = parseTimeToSeconds(new Date())
-const dateModal = new bootstrap.Modal(
-  document.getElementById('datePickerModal'),
-  {
-    keyboard: false
-  }
+const onTimeFlightsCheckbox = document.querySelector('input[id=onTimeFlights]')
+const lessThan10FlightsCheckbox = document.querySelector(
+  'input[id=lessThan10Flights]'
 )
+const lessThan30FlightsCheckbox = document.querySelector(
+  'input[id=lessThan30Flights]'
+)
+const lessThan60FlightsCheckbox = document.querySelector(
+  'input[id=lessThan60Flights]'
+)
+const moreThan60FlightsCheckbox = document.querySelector(
+  'input[id=moreThan60Flights]'
+)
+const startTime = parseTimeToSeconds(new Date())
+// const dateModal = new bootstrap.Modal(
+//   document.getElementById('datePickerModal'),
+//   {
+//     keyboard: false
+//   }
+// )
 const options = {
   container: 'map',
   style: 'mapbox://styles/mapbox/light-v10',
@@ -37,7 +48,6 @@ let canvas
 let airportsDict
 let airportsTable
 let flightsTable
-let flightsEnabled = true
 
 function preload() {
   // Load the data
@@ -55,7 +65,7 @@ function setup() {
 
   // Create a tile map and overlay the canvas on top.
   usaMap = mappa.tileMap(options)
-  syncDateButtonValue()
+  // syncDateButtonValue()
   usaMap.overlay(canvas, setTimeout(addWeatherRadarLayer, 1000))
   registerEventListeners()
   // Only redraw the flights when the map changes and not every frame.
@@ -70,22 +80,34 @@ function registerEventListeners() {
   weatherCheckbox.addEventListener('change', () => {
     updateWeatherLayer()
   })
-  flightsCheckbox.addEventListener('change', () => {
-    flightsEnabled = flightsCheckbox.checked
+  onTimeFlightsCheckbox.addEventListener('change', () => {
     drawFlights()
   })
-  submiDateButton.addEventListener('click', () => {
-    setNewDateTime()
-    updateWeatherLayer()
-    loadFlights()
+  lessThan10FlightsCheckbox.addEventListener('change', () => {
+    drawFlights()
   })
+  lessThan30FlightsCheckbox.addEventListener('change', () => {
+    drawFlights()
+  })
+  lessThan60FlightsCheckbox.addEventListener('change', () => {
+    drawFlights()
+  })
+  moreThan60FlightsCheckbox.addEventListener('change', () => {
+    drawFlights()
+  })
+
+  // submiDateButton.addEventListener('click', () => {
+  //   setNewDateTime()
+  //   updateWeatherLayer()
+  //   loadFlights()
+  // })
 }
 
-function syncDateButtonValue() {
-  openDateModalButton.innerHTML = parseDateTime(dateTimePicker.value)
-}
+// function syncDateButtonValue() {
+//   openDateModalButton.innerHTML = parseDateTime(dateTimePicker.value)
+// }
 
 function setNewDateTime() {
-  syncDateButtonValue()
+  // syncDateButtonValue()
   dateModal.toggle()
 }

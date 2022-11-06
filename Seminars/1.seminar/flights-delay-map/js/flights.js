@@ -26,9 +26,6 @@ function loadFlights() {
 
 function drawFlights() {
   clear()
-  if (!flightsEnabled) {
-    return
-  }
   const lineOpacity = 0.5
   const selectedDate = new Date(dateTimePicker.value)
   const selectedDay = selectedDate.getDate()
@@ -65,19 +62,19 @@ function drawFlights() {
           destinationCoords.longitude
         )
 
-        if (delay == 0) {
+        if (delay == 0 && onTimeFlightsCheckbox.checked) {
           // green
           stroke(`rgba(0,255,0,${lineOpacity})`)
-        } else if (delay <= 10) {
+        } else if (delay <= 10 && lessThan10FlightsCheckbox.checked) {
           // yellow
           stroke(`rgba(255,255,0,${lineOpacity})`)
-        } else if (delay <= 30) {
+        } else if (delay <= 30 && lessThan30FlightsCheckbox.checked) {
           // orange
           stroke(`rgba(255,165,0,${lineOpacity})`)
-        } else if (delay <= 60) {
+        } else if (delay <= 60 && lessThan60FlightsCheckbox.checked) {
           // red
           stroke(`rgba(255,0,0,${lineOpacity})`)
-        } else {
+        } else if (moreThan60FlightsCheckbox.checked) {
           // black
           stroke(`rgba(0,0,0,${lineOpacity})`)
         }

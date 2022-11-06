@@ -22,6 +22,31 @@ body {
 .mapboxgl-ctrl-bottom-left {
   display: none;
 }
-#dataPickerButton {
+#datePickerInput {
   width: fit-content;
 }
+#onTimeFlights {
+  background-color: green;
+    border-color: green;
+}
+
+#lessThan10Flights {
+  background-color: yellow;
+    border-color: yellow;
+}
+
+#lessThan30Flights {
+  background-color: orange;
+    border-color: orange;
+}
+
+#lessThan60Flights {
+  background-color: red;
+    border-color: red;
+}
+
+#moreThan60Flights {
+  background-color: black;
+    border-color: black;
+}
+
