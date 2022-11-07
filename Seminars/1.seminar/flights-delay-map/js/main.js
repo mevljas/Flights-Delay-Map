@@ -96,18 +96,19 @@ function registerEventListeners() {
     drawFlights()
   })
 
-  // submiDateButton.addEventListener('click', () => {
-  //   setNewDateTime()
-  //   updateWeatherLayer()
-  //   loadFlights()
+  // dateTimePicker.onchange = function () {
+  //   syncDateButtonValue()
+  // }
+  // dateTimePicker.addEventListener('change', () => {
+  //   syncDateButtonValue()
   // })
+
+  dateTimePicker.addEventListener('change', () => {
+    syncDateButtonValue()
+  })
 }
 
-// function syncDateButtonValue() {
-//   openDateModalButton.innerHTML = parseDateTime(dateTimePicker.value)
-// }
-
-function setNewDateTime() {
-  // syncDateButtonValue()
-  dateModal.toggle()
+function syncDateButtonValue() {
+  updateWeatherLayer()
+  loadFlights()
 }
