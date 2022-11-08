@@ -1,3 +1,4 @@
+// Parse the list of airports from csv and save them to a dictionary.
 function parseAirports() {
   airportsDict = {}
   for (let i = 0; i < airportsTable.getRowCount(); i++) {
@@ -12,6 +13,7 @@ function parseAirports() {
   }
 }
 
+// Load the flight for a selected datetime.
 function loadFlights() {
   selectedDate = new Date(dateTimePicker.value)
   flightsTable = loadTable(
@@ -24,6 +26,7 @@ function loadFlights() {
   )
 }
 
+// Draw flights on th canvas
 function drawFlights() {
   clear()
   const lineOpacity = 0.5
@@ -31,7 +34,6 @@ function drawFlights() {
   const selectedDay = selectedDate.getDate()
   const selectedTime = selectedDate.toTimeString().substring(0, 5)
   for (let i = 0; i < flightsTable.getRowCount(); i++) {
-    // Get the lat/lng of each flight
     const day = flightsTable.getNum(i, 'DAY')
     const departureTime = flightsTable.getString(i, 'CRS_DEP_TIME')
     const arrivalTime = flightsTable.getString(i, 'CRS_ARR_TIME')
@@ -41,15 +43,17 @@ function drawFlights() {
     const originCoords = airportsDict[origin]
     const destinationCoords = airportsDict[destination]
 
+    // Don't draw future flights
     if (day > selectedDay) {
       break
     }
 
+    // Skip past flights
     if (day < selectedDay) {
       continue
     }
 
-    // Check wheter the plaine is flying right now
+    // Check wheter the plane is flying right now
     if (departureTime < selectedTime && arrivalTime > selectedTime) {
       try {
         // Transform lat/lng to pixel position

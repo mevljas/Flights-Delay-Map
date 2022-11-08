@@ -19,14 +19,9 @@ const lessThan60FlightsCheckbox = document.querySelector(
 const moreThan60FlightsCheckbox = document.querySelector(
   'input[id=moreThan60Flights]'
 )
-const startTime = parseTimeToSeconds(new Date())
-// const dateModal = new bootstrap.Modal(
-//   document.getElementById('datePickerModal'),
-//   {
-//     keyboard: false
-//   }
-// )
-const options = {
+const startTimeSeconds = new Date().getSeconds()
+
+const mapOptions = {
   container: 'map',
   style: 'mapbox://styles/mapbox/light-v10',
   zoom: 0,
@@ -50,7 +45,7 @@ let airportsTable
 let flightsTable
 
 function preload() {
-  // Load the data
+  // Load the csv data
   airportsTable = loadTable('./../assets/csv/us-airports.csv', 'csv', 'header')
   flightsTable = loadTable(
     './../assets/csv/flights/2011/1.csv',
@@ -64,18 +59,23 @@ function setup() {
   canvas = createCanvas(windowWidth, windowHeight)
 
   // Create a tile map and overlay the canvas on top.
-  usaMap = mappa.tileMap(options)
-  // syncDateButtonValue()
+  usaMap = mappa.tileMap(mapOptions)
+
+  // Set canvas overlay.
   usaMap.overlay(canvas, setTimeout(addWeatherRadarLayer, 1000))
+
   registerEventListeners()
+
   // Only redraw the flights when the map changes and not every frame.
   usaMap.onChange(drawFlights)
 }
 
+// Resize canvas on windows resize
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight)
 }
 
+// Register event listeners
 function registerEventListeners() {
   weatherCheckbox.addEventListener('change', () => {
     updateWeatherLayer()
@@ -95,13 +95,6 @@ function registerEventListeners() {
   moreThan60FlightsCheckbox.addEventListener('change', () => {
     drawFlights()
   })
-
-  // dateTimePicker.onchange = function () {
-  //   syncDateButtonValue()
-  // }
-  // dateTimePicker.addEventListener('change', () => {
-  //   syncDateButtonValue()
-  // })
 
   dateTimePicker.addEventListener('change', () => {
     syncDateButtonValue()

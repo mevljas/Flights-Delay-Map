@@ -1,3 +1,4 @@
+// Update weather radar image
 function updateWeatherLayer() {
   removeWeatherRadarLayer()
   if (weatherCheckbox.checked) {
@@ -11,10 +12,7 @@ function parseDateTime(date) {
   return date.replaceAll('-', '/').replace('T', ' ')
 }
 
-function parseTimeToSeconds(dateObje) {
-  return Math.round(dateObje.getTime() / 1000)
-}
-
+// Hide weather radar image
 function removeWeatherRadarLayer() {
   if (usaMap.map.getLayer(mapLayerName)) {
     usaMap.map.removeLayer(mapLayerName)
@@ -23,6 +21,8 @@ function removeWeatherRadarLayer() {
     usaMap.map.removeSource(mapLayerName)
   }
 }
+
+// Draw weather rada image
 function addWeatherRadarLayer() {
   let inputtedValue = dateTimePicker.value
   let inputtedValueDate = new Date(inputtedValue)
@@ -47,6 +47,8 @@ function addWeatherRadarLayer() {
     }
   })
 }
+
+// Returns timestamp for the weather radar query.
 function generateWeatherRadarTimestamp(date) {
   return (
     date.getFullYear() +
