@@ -1,6 +1,6 @@
 # Flight delays map
 
-An interactive map displaying US flight delays and weather radar. Visualisation  shows how can various weather events impact US flight delays.
+An interactive map displaying US flight delays and weather radar. Visualisation shows how can various weather events impact US flight delays.
 
 ## Setup
 
