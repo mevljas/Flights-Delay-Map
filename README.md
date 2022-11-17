@@ -18,4 +18,4 @@ Available delay filter ranges:
 - between 30 and 60 minutes (<span style="color:orange">orange</span>),
 - more than 60 minutes (<span style="color:red">red</span>).
 
-![Screenshot](assets/image.png)
+![Screenshot](flights-delay-map/assets/image.png)
